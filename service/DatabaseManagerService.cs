@@ -17,21 +17,24 @@ namespace CareerHub.service
             _databaseManager = databaseManager;
         }
 
-        public Company CreateCompanyFromInput()
+        public void InsertCompany()
         {
             Console.WriteLine("Enter Company Name:");
             string companyName = Console.ReadLine();
             Console.WriteLine("Enter Location:");
             string location = Console.ReadLine();
 
-            return new Company
+            Company company = new Company
             {
                 CompanyName = companyName,
                 Location = location
             };
+
+            _databaseManager.InsertCompany(company);
+            Console.WriteLine("Company added successfully.");
         }
 
-        public Applicant CreateApplicantFromInput()
+        public void InsertApplicant()
         {
             Console.WriteLine("Enter First Name:");
             string firstName = Console.ReadLine();
@@ -42,16 +45,20 @@ namespace CareerHub.service
             Console.WriteLine("Enter Phone:");
             string phone = Console.ReadLine();
 
-            return new Applicant
+            Applicant applicant = new Applicant
             {
                 FirstName = firstName,
                 LastName = lastName,
                 Email = email,
                 Phone = phone
             };
-        }
 
-        public JobApplication CreateJobApplicationFromInput()
+            _databaseManager.InsertApplicant(applicant);
+            Console.WriteLine("Applicant added successfully.");
+        }
+        
+
+        public JobApplication InsertJobListing()
         {
             Console.WriteLine("Enter Job ID:");
             int jobId = Convert.ToInt32(Console.ReadLine());

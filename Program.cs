@@ -21,8 +21,9 @@ namespace CareerHub
             IApplicantRepository applicantRepository = new ApplicantRepository();
             ApplicantService applicantService = new ApplicantService(applicantRepository);
 
-         //   var databaseManagerRepository = new DatabaseManagerRepository();
-            //var careerHubService = new CareerHubService(databaseManagerRepository);
+           var databaseManagerRepository = new DatabaseManagerRepository();
+            var careerHubService = new CareerHubService(databaseManagerRepository);
+           
             while (true)
             {
                 Console.WriteLine("\nJob Listing Management System\n");
@@ -32,11 +33,14 @@ namespace CareerHub
                 Console.WriteLine("4. Apply for Job");
                 Console.WriteLine("5. Post Job");
                 Console.WriteLine("6. Get Jobs");
-              //  Console.WriteLine(" CareerHub Main Menu");
-                
-                Console.WriteLine("7. Exit");
-                
-              
+                Console.WriteLine("7. InsertCompany");
+                Console.WriteLine("8. Insert Applicant");
+                //  Console.WriteLine(" CareerHub Main Menu");
+                Console.WriteLine("9. Insert Job Listing");
+
+                // Console.WriteLine("9. Exit");
+
+
 
                 Console.Write("Enter your choice: ");
                 int choice;
@@ -66,10 +70,15 @@ namespace CareerHub
                     case 6:
                         companyService.GetJobs();
                         break;
-
-                  
                     case 7:
-
+                        careerHubService.InsertCompany();
+                        break;
+                    case 8:
+                        careerHubService.InsertApplicant();
+                        break;
+                    case 9:
+                        careerHubService.InsertJobListing();
+                        break;
                         Environment.Exit(0);
                         break;
                     default:

@@ -24,7 +24,7 @@ namespace CareerHub.repository
             {
                 connection.Open();
 
-                string query = "INSERT INTO JobListings (CompanyId, JobTitle, JobDescription, JobLocation, Salary, JobType, PostedDate) " +
+                string query = "INSERT INTO Jobs (CompanyId, JobTitle, JobDescription, JobLocation, Salary, JobType, PostedDate) " +
                                "VALUES (@CompanyId, @JobTitle, @JobDescription, @JobLocation, @Salary, @JobType, @PostedDate)";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -50,7 +50,7 @@ namespace CareerHub.repository
             {
                 connection.Open();
 
-                string query = "SELECT * FROM JobListings WHERE CompanyId = @CompanyId";
+                string query = "SELECT * FROM Jobs WHERE CompanyId = @CompanyId";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {

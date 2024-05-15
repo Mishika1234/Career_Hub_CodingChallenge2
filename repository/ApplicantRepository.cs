@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CareerHub.exception;
 
 namespace CareerHub.repository
 {
@@ -19,22 +20,29 @@ namespace CareerHub.repository
 
         public void CreateProfile(string email, string firstName, string lastName, string phone)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-
-                string query = "INSERT INTO Applicants (FirstName, LastName, Email, Phone) " +
-                               "VALUES (@FirstName, @LastName, @Email, @Phone)";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@FirstName", firstName);
-                    command.Parameters.AddWithValue("@LastName", lastName);
-                    command.Parameters.AddWithValue("@Email", email);
-                    command.Parameters.AddWithValue("@Phone", phone);
+                    connection.Open();
 
-                    command.ExecuteNonQuery();
+                    string query = "INSERT INTO Applicants (FirstName, LastName, Email, Phone) " +
+                                   "VALUES (@FirstName, @LastName, @Email, @Phone)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@FirstName", firstName);
+                        command.Parameters.AddWithValue("@LastName", lastName);
+                        command.Parameters.AddWithValue("@Email", email);
+                        command.Parameters.AddWithValue("@Phone", phone);
+
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (DatabaseConnectionHandlingException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 
@@ -44,7 +52,7 @@ namespace CareerHub.repository
             {
                 connection.Open();
 
-                string query = "INSERT INTO JobApplications (ApplicantID, JobID, CoverLetter, ApplicationDate) " +
+                string query = "INSERT INTO Applications (ApplicantID, JobID, CoverLetter, ApplicationDate) " +
                                "VALUES (@ApplicantID, @JobID, @CoverLetter, @ApplicationDate)";
 
                 using (SqlCommand command = new SqlCommand(query, connection))

@@ -24,7 +24,7 @@ namespace CareerHub.repository
             {
                 connection.Open();
 
-                string query = "INSERT INTO JobApplications (JobID, ApplicantID, CoverLetter, ApplicationDate) " +
+                string query = "INSERT INTO Applications (JobID, ApplicantID, CoverLetter, ApplicationDate) " +
                                "VALUES (@JobID, @ApplicantID, @CoverLetter, @ApplicationDate)";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -34,7 +34,6 @@ namespace CareerHub.repository
                     command.Parameters.AddWithValue("@CoverLetter", coverLetter);
                     command.Parameters.AddWithValue("@ApplicationDate", DateTime.Now);
 
-                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -47,7 +46,7 @@ namespace CareerHub.repository
             {
                 connection.Open();
 
-                string query = "SELECT * FROM Applicants WHERE ApplicantID IN (SELECT ApplicantID FROM JobApplications WHERE JobID = @JobID)";
+                string query = "SELECT * FROM Applicants WHERE ApplicantID IN (SELECT ApplicantID FROM Applications WHERE JobID = @JobID)";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -57,10 +56,15 @@ namespace CareerHub.repository
                     {
                         while (reader.Read())
                         {
-                            // Populate Applicant object from SqlDataReader
                             Applicant applicant = new Applicant
                             {
-                                // Populate properties from reader columns
+                                ApplicantID = Convert.ToInt32(reader["ApplicantID"]),
+                                FirstName = reader["FirstName"].ToString(),
+                                LastName = reader["LastName"].ToString(),
+                                Email = reader["Email"].ToString(),
+                                Phone = reader["Phone"].ToString(),
+              
+
                             };
                             applicants.Add(applicant);
                         }
